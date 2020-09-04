@@ -30,7 +30,7 @@ class Patient {
         this.recovery_days = recovery_days;
     }
 
-    void get_recovery_days() {
+    int get_recovery_days() {
         return recovery_days;
     }
 
