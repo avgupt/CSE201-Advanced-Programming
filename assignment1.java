@@ -84,6 +84,7 @@ class Hospital {
 
     void add_patient(Patient p) {
         this.patients.add(p);
+        occupy_bed();
     }
 
 }
