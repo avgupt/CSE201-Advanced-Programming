@@ -4,6 +4,46 @@ import java.lang.*;
 
 class Patient {
 
+    String name;
+    private int age, id, recovery_days;
+    private float oxygen_level, body_temp;
+    private boolean is_admitted; // admitted or not
+    private Hospital hospital; // hospital in which patient is admitted
+
+    Patient(String name, int age, float oxygen_level, float body_temp, int id) {
+        
+        this.name = name;
+        this.age = age;
+        this.oxygen_level = oxygen_level;
+        this.body_temp = body_temp;
+        this.id = id;
+        
+        is_admitted = false; // not admitted
+    }
+
+    void hospitalize(Hospital hospital) {
+        this.hospital = hospital;
+        is_admitted = true;
+    }
+
+    void set_recovery_days(int recovery_days) {
+        this.recovery_days = recovery_days;
+    }
+
+    void display_details() {
+        System.out.println(name);
+        System.out.println("Temperature is " + body_temp);
+        System.out.println("Oxygen level is " + oxygen_level);
+        
+        String admission_status;
+        if (is_admitted) admission_status = "Admitted";
+        else admission_status = "Not Admitted";
+        System.out.println("Admission Status - " + admission_status);
+
+        if (is_admitted) System.out.println("Admitting Institute - " + hospital.get_name());
+    }
+
+
 }
 
 class Hospital {
