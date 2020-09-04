@@ -91,6 +91,16 @@ class Hospital {
         occupy_bed();
     }
 
+    void remove_patients() {
+        patients.clear();
+    }
+
+    void display_patient_info() {
+        for (Patient p : patients) {
+            System.out.println(p.name + ", recovery time is " + p.get_recovery_days() + " days");
+        }
+    }
+
 }
 
 
