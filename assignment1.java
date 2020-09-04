@@ -22,6 +22,7 @@ class Hospital {
         this.available_beds = available_beds;
 
         patients = new ArrayList<Patient>();
+        status = true;
     }
 
     int get_oxygen_criteria() {
@@ -34,6 +35,7 @@ class Hospital {
 
     void occupy_bed() {
         this.available_beds--;
+        if (available_beds == 0) status = false;
     }
 
     void add_patient(Patient p) {
