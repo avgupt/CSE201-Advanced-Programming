@@ -30,6 +30,10 @@ class Patient {
         this.recovery_days = recovery_days;
     }
 
+    void get_recovery_days() {
+        return recovery_days;
+    }
+
     void display_details() {
         System.out.println(name);
         System.out.println("Temperature is " + body_temp);
