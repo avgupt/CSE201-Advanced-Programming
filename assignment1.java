@@ -69,11 +69,11 @@ class Hospital {
         status = true;
     }
 
-    int get_oxygen_criteria() {
+    float get_oxygen_criteria() {
         return this.oxygen_criteria;
     }
 
-    int get_temp_criteria() {
+    float get_temp_criteria() {
         return this.temp_criteria;
     }
 
