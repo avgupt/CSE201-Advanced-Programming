@@ -8,13 +8,13 @@ class Patient {
 
 class Hospital {
     
-    private string name;
+    private String name;
     private float oxygen_criteria, temp_criteria;
-    private bool status; // true if open false if closed
+    private boolean status; // true if open false if closed
     private int available_beds;
     private List<Patient> patients;
 
-    Hospital(string name, float temp_criteria, float oxygen_criteria, int available_beds) {
+    Hospital(String name, float temp_criteria, float oxygen_criteria, int available_beds) {
         
         this.name = name;
         this.temp_criteria = temp_criteria;
@@ -22,6 +22,14 @@ class Hospital {
         this.available_beds = available_beds;
 
         patients = new ArrayList<Patient>();
+    }
+
+    int get_oxygen_criteria() {
+        return this.oxygen_criteria;
+    }
+
+    int get_temp_criteria() {
+        return this.temp_criteria;
     }
 
     void occupy_bed() {
