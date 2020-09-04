@@ -77,6 +77,10 @@ class Hospital {
         return name;
     }
 
+    boolean get_status() {
+        return status;
+    }
+
     void occupy_bed() {
         this.available_beds--;
         if (available_beds == 0) status = false;
