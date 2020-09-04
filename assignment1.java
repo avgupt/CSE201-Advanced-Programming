@@ -73,6 +73,10 @@ class Hospital {
         return this.temp_criteria;
     }
 
+    String get_name() {
+        return name;
+    }
+
     void occupy_bed() {
         this.available_beds--;
         if (available_beds == 0) status = false;
