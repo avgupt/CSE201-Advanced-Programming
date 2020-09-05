@@ -13,7 +13,7 @@ class Camp {
         hospitals = new HashMap<String, Hospital>();
     }
 
-    Hospital add_hospital(String name, int oxygen_level, int body_temp, int available_beds) {
+    Hospital add_hospital(String name, float oxygen_level, float body_temp, int available_beds) {
         Hospital h = new Hospital(name, body_temp, oxygen_level, available_beds);
         hospitals.put(name, h);
         display_hospital_details(h);
@@ -54,11 +54,13 @@ class Camp {
         }
     }
 
-    void remove_admitted_patients() {
+    List<Patient> remove_admitted_patients() {
+        List<Patient> output = admitted_patients;
         admitted_patients.clear();
         for (Hospital h : hospitals.values()) {
             h.remove_patients();
         }
+        return output;
     }
 }
 
@@ -182,6 +184,10 @@ class Hospital {
         patients.clear();
     }
 
+    List<Patient> get_patients() {
+        return patients;
+    }
+
     void display_patient_info() {
         for (Patient p : patients) {
             System.out.println(p.name + ", recovery time is " + p.get_recovery_days() + " days");
@@ -193,7 +199,36 @@ class Hospital {
 
 public class assignment1 {
 
+    Scanner in = new Scanner(System.in);
 
+    void query_1 (Camp c) {
+        String name = in.next();
+        
+        System.out.println("Temperature Criteria - ");
+        float temp = in.nextFloat();
+
+        System.out.println("Oxygen Levels -");
+        float oxygen = in.nextFloat();
+
+        System.out.println("Number of Available beds - ");
+        int available_beds = in.nextInt();
+
+        Hospital h = c.add_hospital(name, oxygen, temp, available_beds);
+        for (Patient p : h.get_patients()) {
+            System.out.println("Recovery days for admitted patient ID " + p.get_id());
+            int recovery_days = in.nextInt();
+            p.set_recovery_days(recovery_days);
+        }
+        
+    }
+
+    void query_2(Camp c) {
+        List<Patient> patients = c.remove_admitted_patients();
+        System.out.println("Account ID removed of admitted patients");
+        for (Patient p : patients) {
+            System.out.println(p.get_id());
+        }
+    }
     public static void main(String[] args) {
         
     }
