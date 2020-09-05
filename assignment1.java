@@ -3,13 +3,13 @@ import java.io.*;
 import java.lang.*;
 
 class Camp {
-    private List<Patient> patients;
+    private HashMap<Integer, Patient> patients;
     private List<Patient> admitted_patients;
     private static HashMap<String, Hospital> hospitals; // other camps may add hospitals and the total hospitals remain same for every camp
     private int patient_num;
 
     Camp() {
-        patients = new ArrayList<Patient>();
+        patients = new HashMap<Integer, Patient>();
         admitted_patients = new ArrayList<Patient>();
         hospitals = new HashMap<String, Hospital>();
     }
@@ -30,27 +30,29 @@ class Camp {
         else System.out.println("Admission Status - CLOSED");
     }
 
-    void hospitalise_patients(Hospital h) {        
-        int index = 0;
-        while (index < patients.size() && h.get_status()) {
-            Patient p = patients.get(index);
+    void hospitalise_patients(Hospital h) {
+
+        List<Integer> ids = new ArrayList<Integer>(); 
+        for (Patient p : patients.values()) {
+            if (!h.get_status()) break;
             if (p.get_oxygen_level() >= h.get_oxygen_criteria()) {
                 h.add_patient(p);
                 admitted_patients.add(p);
-                patients.remove(index);
+                ids.add(p.get_id());
             }
-            else index++;
         }
 
-        index = 0;
-        while (index < patients.size() && h.get_status()) {
-            Patient p = patients.get(index);
-            if (p.get_body_temp() <= h.get_temp_criteria()) {
+        for (Patient p : patients.values()) {
+            if (!h.get_status()) break;
+            if (p.get_body_temp() <= h.get_temp_criteria() && !p.is_admitted) {
                 h.add_patient(p);
                 admitted_patients.add(p);
-                patients.remove(index);
+                ids.add(p.get_id());
             }
-            else index++;
+        }
+
+        for (Integer i : ids) {
+            patients.remove(i);
         }
     }
 
@@ -92,8 +94,8 @@ class Camp {
         return patient_num;
     }
 
-    List<Patient> get_patients() {
-        return patients;
+    Collection<Patient> get_patients() {
+        return patients.values();
     }
 
     Collection<Hospital> get_hospitals() {
@@ -106,7 +108,7 @@ class Patient {
     String name;
     private final int age, id;
     private final float oxygen_level, body_temp;
-    private boolean is_admitted; // admitted or not
+    boolean is_admitted; // admitted or not
     private Hospital hospital; // hospital in which patient is admitted
     int recovery_days;
 
@@ -122,6 +124,7 @@ class Patient {
     }
 
     void hospitalize(Hospital hospital) {
+        if(is_admitted) return;
         this.hospital = hospital;
         is_admitted = true;
     }
