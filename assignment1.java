@@ -6,6 +6,7 @@ class Camp {
     private List<Patient> patients;
     private List<Patient> admitted_patients;
     private HashMap<String, Hospital> hospitals; // STATIC ??
+    private int patient_num;
 
     Camp() {
         patients = new ArrayList<Patient>();
@@ -86,6 +87,11 @@ class Camp {
         return open;
     }
 
+    int get_patient_id() {
+        patient_num++;
+        return patient_num;
+    }
+
     List<Patient> get_patients() {
         return patients;
     }
@@ -98,10 +104,11 @@ class Camp {
 class Patient {
 
     String name;
-    private int age, id, recovery_days;
-    private float oxygen_level, body_temp;
+    private final int age, id;
+    private final float oxygen_level, body_temp;
     private boolean is_admitted; // admitted or not
     private Hospital hospital; // hospital in which patient is admitted
+    int recovery_days;
 
     Patient(String name, int age, float oxygen_level, float body_temp, int id) {
         
