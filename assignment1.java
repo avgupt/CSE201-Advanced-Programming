@@ -2,6 +2,66 @@ import java.util.*;
 import java.io.*;
 import java.lang.*;
 
+class Camp {
+    private List<Patient> not_admitted_patients;
+    private List<Patient> admitted_patients;
+    private HashMap<String, Hospital> hospitals; 
+
+    Camp() {
+        not_admitted_patients = new ArrayList<Patient>();
+        admitted_patients = new ArrayList<Patient>();
+        hospitals = new HashMap<String, Hospital>();
+    }
+
+    Hospital add_hospital(String name, int oxygen_level, int body_temp, int available_beds) {
+        Hospital h = new Hospital(name, body_temp, oxygen_level, available_beds);
+        hospitals.put(name, h);
+        display_hospital_details(h);
+        admit_patients(h);
+        return h;
+    }
+
+    void display_hospital_details(Hospital h) {
+        System.out.println(h.get_name());
+        System.out.println("Temperature should be <= " + h.get_temp_criteria());
+        System.out.println("Oxygen should be >= " + h.get_oxygen_criteria());
+        if (h.get_status()) System.out.println("Admission Status - OPEN");
+        else System.out.println("Admission Status - CLOSED");
+    }
+
+    void admit_patients (Hospital h) {
+        
+        int index = 0;
+        while (index < not_admitted_patients.size() && h.get_status()) {
+            Patient p = not_admitted_patients.get(index);
+            if (p.get_oxygen_level() >= h.get_oxygen_criteria()) {
+                h.add_patient(p);
+                admitted_patients.add(p);
+                not_admitted_patients.remove(index);
+            }
+            else index++;
+        }
+
+        index = 0;
+        while (index < not_admitted_patients.size() && h.get_status()) {
+            Patient p = not_admitted_patients.get(index);
+            if (p.get_body_temp() <= h.get_temp_criteria()) {
+                h.add_patient(p);
+                admitted_patients.add(p);
+                not_admitted_patients.remove(index);
+            }
+            else index++;
+        }
+    }
+
+    void remove_admitted_patients() {
+        admitted_patients.clear();
+        for (Hospital h : hospitals.values()) {
+            h.remove_patients();
+        }
+    }
+}
+
 class Patient {
 
     String name;
@@ -46,6 +106,14 @@ class Patient {
         return age;
     }
 
+    float get_oxygen_level() {
+        return oxygen_level;
+    }
+
+    float get_body_temp() {
+        return body_temp;
+    }
+
     void display_details() {
         System.out.println(name);
         System.out.println("Temperature is " + body_temp);
@@ -78,7 +146,9 @@ class Hospital {
         this.available_beds = available_beds;
 
         patients = new ArrayList<Patient>();
-        status = true;
+
+        if (available_beds > 0) status = true;
+        else status = false;
     }
 
     float get_oxygen_criteria() {
@@ -104,6 +174,7 @@ class Hospital {
 
     void add_patient(Patient p) {
         this.patients.add(p);
+        p.hospitalize(this);
         occupy_bed();
     }
 
