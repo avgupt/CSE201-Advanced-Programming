@@ -17,18 +17,10 @@ class Camp {
     Hospital add_hospital(String name, float oxygen_level, float body_temp, int available_beds) {
         Hospital h = new Hospital(name, body_temp, oxygen_level, available_beds);
         hospitals.put(name, h);
-        display_hospital_details(h);
         hospitalise_patients(h);
         return h;
     }
 
-    void display_hospital_details(Hospital h) {
-        System.out.println(h.get_name());
-        System.out.println("Temperature should be <= " + h.get_temp_criteria());
-        System.out.println("Oxygen should be >= " + h.get_oxygen_criteria());
-        if (h.get_status()) System.out.println("Admission Status - OPEN");
-        else System.out.println("Admission Status - CLOSED");
-    }
 
     void hospitalise_patients(Hospital h) {
 
@@ -88,6 +80,10 @@ class Camp {
         }
 
         return open;
+    }
+
+    Hospital get_hospital(String name) {
+        return hospitals.get(name);
     }
 
     int get_patient_id() {
@@ -163,17 +159,8 @@ class Patient {
         return body_temp;
     }
 
-    void display_details() {
-        System.out.println(name);
-        System.out.println("Temperature is " + body_temp);
-        System.out.println("Oxygen level is " + oxygen_level);
-        
-        String admission_status;
-        if (is_admitted) admission_status = "Admitted";
-        else admission_status = "Not Admitted";
-        System.out.println("Admission Status - " + admission_status);
-
-        if (is_admitted) System.out.println("Admitting Institute - " + hospital.get_name());
+    Hospital get_hospital() {
+        return hospital;
     }
 
 
@@ -216,6 +203,10 @@ class Hospital {
         return status;
     }
 
+    int get_available_beds() {
+        return available_beds;
+    }
+
     void occupy_bed() {
         this.available_beds--;
         if (available_beds == 0) status = false;
@@ -247,8 +238,9 @@ class Hospital {
 public class assignment1 {
 
     Scanner in = new Scanner(System.in);
+    Camp c = new Camp();
 
-    void query_1 (Camp c) {
+    void query_1 () {
         String name = in.next();
         
         System.out.println("Temperature Criteria - ");
@@ -261,6 +253,7 @@ public class assignment1 {
         int available_beds = in.nextInt();
 
         Hospital h = c.add_hospital(name, oxygen, temp, available_beds);
+        display_hospital_details(h);
         for (Patient p : h.get_patients()) {
             System.out.println("Recovery days for admitted patient ID " + p.get_id());
             int recovery_days = in.nextInt();
@@ -269,12 +262,74 @@ public class assignment1 {
         
     }
 
-    void query_2(Camp c) {
+    void query_2() {
         List<Patient> patients = c.remove_admitted_patients();
         System.out.println("Account ID removed of admitted patients");
         for (Patient p : patients) {
             System.out.println(p.get_id());
         }
+    }
+
+    void query_3() {
+        List<Hospital> list = c.remove_closed_hospitals();
+        System.out.println("Accounts removed of Institute whose admission is closed");
+        for (Hospital h : list) System.out.println(h.get_name());
+    }
+
+    void query_4() {
+        Collection<Patient> patients = c.get_patients();
+        System.out.println(patients.size());
+    }
+
+    void query_5() {
+        List<Hospital> hospitals = c.get_open_hospitals();
+        System.out.println(hospitals.size() + " intitute(s) is/are admitting patients currently");
+    }
+
+    void query_6() {
+        String name  = in.nextLine();
+        display_hospital_details(c.get_hospital(name));
+    }
+
+    void query_7() {
+        int id = in.nextInt();
+        Patient p = c.get_patient_by_id(id);
+        System.out.println(p.get_name());
+        System.out.println("Temperature is " + p.get_body_temp());
+        System.out.println("Oxygen level is " + p.get_oxygen_level());
+        
+        String admission_status;
+        if (p.is_admitted) admission_status = "Admitted";
+        else admission_status = "Not Admitted";
+        System.out.println("Admission Status - " + admission_status);
+
+        if (p.is_admitted) System.out.println("Admitting Institute - " + p.get_hospital().get_name());
+    }
+
+    void query_8() {
+        for (Patient p : c.get_patients()) System.out.println(p.get_id() + " " + p.get_name());
+        for (Hospital h : c.get_hospitals()) {
+            for (Patient p : h.get_patients()) {
+                System.out.println(p.get_id() + " " + p.get_name());
+            }
+        }
+    }
+
+    void query_9() {
+        String name = in.nextLine();
+        Hospital h = c.get_hospital(name);
+        for (Patient p : h.get_patients()) {
+            System.out.println(p.name + ", recovery time is " + p.get_recovery_days() + " days");
+        }
+    }
+
+    void display_hospital_details(Hospital h) {
+        System.out.println(h.get_name());
+        System.out.println("Temperature should be <= " + h.get_temp_criteria());
+        System.out.println("Oxygen should be >= " + h.get_oxygen_criteria());
+        System.out.println("Number of beds available - " + h.get_available_beds());
+        if (h.get_status()) System.out.println("Admission Status - OPEN");
+        else System.out.println("Admission Status - CLOSED");
     }
     public static void main(String[] args) {
         
