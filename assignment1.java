@@ -5,7 +5,7 @@ import java.lang.*;
 class Camp {
     private List<Patient> patients;
     private List<Patient> admitted_patients;
-    private HashMap<String, Hospital> hospitals; // STATIC ??
+    private static HashMap<String, Hospital> hospitals; // other camps may add hospitals and the total hospitals remain same for every camp
     private int patient_num;
 
     Camp() {
