@@ -4,13 +4,13 @@ import java.lang.*;
 
 class Camp {
     private HashMap<Integer, Patient> patients;
-    private List<Patient> admitted_patients;
+    // private List<Patient> admitted_patients;
     private static HashMap<String, Hospital> hospitals; // other camps may add hospitals and the total hospitals remain same for every camp
     private int patient_num;
 
     Camp() {
         patients = new HashMap<Integer, Patient>();
-        admitted_patients = new ArrayList<Patient>();
+        // admitted_patients = new ArrayList<Patient>();
         hospitals = new HashMap<String, Hospital>();
     }
 
@@ -37,7 +37,7 @@ class Camp {
             if (!h.get_status()) break;
             if (p.get_oxygen_level() >= h.get_oxygen_criteria()) {
                 h.add_patient(p);
-                admitted_patients.add(p);
+                // admitted_patients.add(p);
                 ids.add(p.get_id());
             }
         }
@@ -46,7 +46,7 @@ class Camp {
             if (!h.get_status()) break;
             if (p.get_body_temp() <= h.get_temp_criteria() && !p.is_admitted) {
                 h.add_patient(p);
-                admitted_patients.add(p);
+                // admitted_patients.add(p);
                 ids.add(p.get_id());
             }
         }
@@ -57,9 +57,10 @@ class Camp {
     }
 
     List<Patient> remove_admitted_patients() {
-        List<Patient> output = admitted_patients;
-        admitted_patients.clear();
+        List<Patient> output = new ArrayList<Patient>();
+        // admitted_patients.clear();
         for (Hospital h : hospitals.values()) {
+            output.addAll(h.get_patients());
             h.remove_patients();
         }
         return output;
@@ -101,6 +102,11 @@ class Camp {
     Collection<Hospital> get_hospitals() {
         return hospitals.values();
     }
+
+    Patient get_patient_by_id(int id) {
+        return patients.get(Integer.valueOf(id));
+    }
+
 }
 
 class Patient {
