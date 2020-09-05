@@ -3,12 +3,12 @@ import java.io.*;
 import java.lang.*;
 
 class Camp {
-    private List<Patient> not_admitted_patients;
+    private List<Patient> patients;
     private List<Patient> admitted_patients;
-    private HashMap<String, Hospital> hospitals; 
+    private HashMap<String, Hospital> hospitals; // STATIC ??
 
     Camp() {
-        not_admitted_patients = new ArrayList<Patient>();
+        patients = new ArrayList<Patient>();
         admitted_patients = new ArrayList<Patient>();
         hospitals = new HashMap<String, Hospital>();
     }
@@ -17,7 +17,7 @@ class Camp {
         Hospital h = new Hospital(name, body_temp, oxygen_level, available_beds);
         hospitals.put(name, h);
         display_hospital_details(h);
-        admit_patients(h);
+        hospitalise_patients(h);
         return h;
     }
 
@@ -29,26 +29,25 @@ class Camp {
         else System.out.println("Admission Status - CLOSED");
     }
 
-    void admit_patients (Hospital h) {
-        
+    void hospitalise_patients(Hospital h) {        
         int index = 0;
-        while (index < not_admitted_patients.size() && h.get_status()) {
-            Patient p = not_admitted_patients.get(index);
+        while (index < patients.size() && h.get_status()) {
+            Patient p = patients.get(index);
             if (p.get_oxygen_level() >= h.get_oxygen_criteria()) {
                 h.add_patient(p);
                 admitted_patients.add(p);
-                not_admitted_patients.remove(index);
+                patients.remove(index);
             }
             else index++;
         }
 
         index = 0;
-        while (index < not_admitted_patients.size() && h.get_status()) {
-            Patient p = not_admitted_patients.get(index);
+        while (index < patients.size() && h.get_status()) {
+            Patient p = patients.get(index);
             if (p.get_body_temp() <= h.get_temp_criteria()) {
                 h.add_patient(p);
                 admitted_patients.add(p);
-                not_admitted_patients.remove(index);
+                patients.remove(index);
             }
             else index++;
         }
@@ -61,6 +60,38 @@ class Camp {
             h.remove_patients();
         }
         return output;
+    }
+
+    List<Hospital> remove_closed_hospitals() {
+        List<Hospital> closedHospitals = new ArrayList<Hospital>();
+
+        for (Hospital h : hospitals.values()) {
+            if (!h.get_status()) closedHospitals.add(h);
+        }
+
+        for (Hospital h : closedHospitals) {
+            hospitals.remove(h.get_name());
+        }
+
+        return closedHospitals;
+    }
+
+    List<Hospital> get_open_hospitals() {
+        List<Hospital> open = new ArrayList<Hospital>();
+
+        for (Hospital h : hospitals.values()) {
+            if (h.get_status()) open.add(h);
+        }
+
+        return open;
+    }
+
+    List<Patient> get_patients() {
+        return patients;
+    }
+
+    Collection<Hospital> get_hospitals() {
+        return hospitals.values();
     }
 }
 
