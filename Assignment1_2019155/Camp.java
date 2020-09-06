@@ -1,8 +1,8 @@
 import java.util.*;
 
 public class Camp {
-    private HashMap<Integer, Patient> patients;
-    private HashMap<Integer, Patient> admitted_patients;
+    private HashMap<Integer, Patient> patients; // patients who are still in camp
+    private HashMap<Integer, Patient> admitted_patients;    // patients who were a part of camp but now admitted in a hospital
     private static HashMap<String, Hospital> hospitals; // other camps may add hospitals and the total hospitals remain same for every camp
     private int patient_num;
 
@@ -22,12 +22,11 @@ public class Camp {
         return h;
     }
 
-
     void hospitalise_patients(Hospital h) {
 
-        List<Integer> ids = new ArrayList<Integer>(); 
+        List<Integer> ids = new ArrayList<Integer>(); // to store ids of patients who are hospitalised
         for (Patient p : patients.values()) {
-            if (!h.get_status()) break;
+            if (!h.get_status()) break; // break if no beds available
             if (p.get_oxygen_level() >= h.get_oxygen_criteria()) {
                 h.add_patient(p);
                 admitted_patients.put(Integer.valueOf(p.get_id()), p);
@@ -45,16 +44,14 @@ public class Camp {
         }
 
         for (Integer i : ids) {
+            // patients are not in camp, remove admitted patients from list
             patients.remove(i);
         }
     }
 
-    List<Patient> remove_admitted_patients() {
-        List<Patient> output = new ArrayList<Patient>();
-        admitted_patients.clear();
-        for (Hospital h : hospitals.values()) {
-            output.addAll(h.get_patients());
-        }
+    Collection<Patient> remove_admitted_patients() {
+        Collection<Patient> output = admitted_patients.values();
+        admitted_patients.clear();  // remove accounts of admitted patients from Camp database
         return output;
     }
 
@@ -87,6 +84,7 @@ public class Camp {
     }
 
     int get_patient_id() {
+        // camp assigns patient ids according to number of patients admitted in the past
         patient_num++;
         return patient_num;
     }
@@ -102,6 +100,10 @@ public class Camp {
     Patient get_patient_by_id(int id) {
         if (patients.containsKey(Integer.valueOf(id))) return patients.get(Integer.valueOf(id));
         return admitted_patients.get(Integer.valueOf(id));
+    }
+
+    Collection<Patient> get_admitted_patients(){
+        return admitted_patients.values();
     }
 
 }

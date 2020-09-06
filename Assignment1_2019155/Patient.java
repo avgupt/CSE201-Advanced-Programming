@@ -14,7 +14,7 @@ public class Patient {
         this.age = age;
         this.oxygen_level = oxygen_level;
         this.body_temp = body_temp;
-        this.id = id;
+        this.id = id;   // id would be asssigned by the camp in which patient is admitted
         
         is_admitted = false; // not admitted
     }

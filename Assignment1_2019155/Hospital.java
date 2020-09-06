@@ -4,7 +4,7 @@ public class Hospital {
     
     private String name;
     private float temp_criteria;
-    private boolean status; // true if open false if closed
+    private boolean status; // true if OPEN false if CLOSED
     private int available_beds, oxygen_criteria;
     private List<Patient> patients;
 
@@ -54,12 +54,6 @@ public class Hospital {
 
     List<Patient> get_patients() {
         return patients;
-    }
-
-    void display_patient_info() {
-        for (Patient p : patients) {
-            System.out.println(p.name + ", recovery time is " + p.get_recovery_days() + " days");
-        }
     }
 
 }

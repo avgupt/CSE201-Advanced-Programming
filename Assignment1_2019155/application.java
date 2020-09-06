@@ -3,9 +3,8 @@ import java.util.*;
 public class application {
 
     static Scanner in = new Scanner(System.in);
-    static Camp c = new Camp();
 
-    static void query_1 () {
+    static void query_1 (Camp c) {
         String name = in.next();
         
         System.out.println("Temperature Criteria - ");
@@ -28,37 +27,36 @@ public class application {
         
     }
 
-    static void query_2() {
-        List<Patient> patients = c.remove_admitted_patients();
+    static void query_2(Camp c) {
+        Collection<Patient> patients = c.remove_admitted_patients();
         System.out.println("Account ID removed of admitted patients");
         for (Patient p : patients) {
             System.out.println(p.get_id());
         }
     }
 
-    static void query_3() {
+    static void query_3(Camp c) {
         List<Hospital> list = c.remove_closed_hospitals();
         System.out.println("Accounts removed of Institute whose admission is closed");
         for (Hospital h : list) System.out.println(h.get_name());
     }
 
-    static void query_4() {
+    static void query_4(Camp c) {
         Collection<Patient> patients = c.get_patients();
         System.out.println(patients.size() + " patient(s)");
     }
 
-    static void query_5() {
+    static void query_5(Camp c) {
         List<Hospital> hospitals = c.get_open_hospitals();
         System.out.println(hospitals.size() + " intitute(s) is/are admitting patients currently");
     }
 
-    static void query_6() {
+    static void query_6(Camp c) {
         String name  = in.next(); // assuming institute name is of one word
         display_hospital_details(c.get_hospital(name));
     }
 
-    static void query_7() {
-        //// ERROR /////////////////////////
+    static void query_7(Camp c) {
         int id = in.nextInt();
         Patient p = c.get_patient_by_id(id);
         System.out.println(p.get_name());
@@ -73,16 +71,12 @@ public class application {
         if (p.is_admitted) System.out.println("Admitting Institute - " + p.get_hospital().get_name());
     }
 
-    static void query_8() {
+    static void query_8(Camp c) {
         for (Patient p : c.get_patients()) System.out.println(p.get_id() + " " + p.get_name());
-        for (Hospital h : c.get_hospitals()) {
-            for (Patient p : h.get_patients()) {
-                System.out.println(p.get_id() + " " + p.get_name());
-            }
-        }
+        for (Patient p : c.get_admitted_patients()) System.out.println(p.get_id() + " " + p.get_name());
     }
 
-    static void query_9() {
+    static void query_9(Camp c) {
         String name = in.next();
         Hospital h = c.get_hospital(name);
         for (Patient p : h.get_patients()) {
@@ -99,7 +93,9 @@ public class application {
         else System.out.println("Admission Status - CLOSED");
     }
     public static void main(String[] args) {
-
+        
+        Camp c = new Camp();
+        
         int patient_num = in.nextInt();
         for (int i = 0; i < patient_num; i++) {
             String name = in.next(); // assuming that name is of one word
@@ -114,31 +110,31 @@ public class application {
             int query = in.nextInt();
             switch(query) {
                 case 1:
-                    query_1();
+                    query_1(c);
                     break;
                 case 2:
-                    query_2();
+                    query_2(c);
                     break;
                 case 3:
-                    query_3();
+                    query_3(c);
                     break;
                 case 4:
-                    query_4();
+                    query_4(c);
                     break;
                 case 5:
-                    query_5();
+                    query_5(c);
                     break;
                 case 6:
-                    query_6();
+                    query_6(c);
                     break;
                 case 7:
-                    query_7();
+                    query_7(c);
                     break;
                 case 8:
-                    query_8();
+                    query_8(c);
                     break;
                 case 9:
-                    query_9();
+                    query_9(c);
                     break;
             }
         }
