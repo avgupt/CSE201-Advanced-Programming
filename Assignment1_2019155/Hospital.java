@@ -3,12 +3,12 @@ import java.util.*;
 public class Hospital {
     
     private String name;
-    private float oxygen_criteria, temp_criteria;
+    private float temp_criteria;
     private boolean status; // true if open false if closed
-    private int available_beds;
+    private int available_beds, oxygen_criteria;
     private List<Patient> patients;
 
-    Hospital(String name, float temp_criteria, float oxygen_criteria, int available_beds) {
+    Hospital(String name, float temp_criteria, int oxygen_criteria, int available_beds) {
         
         this.name = name;
         this.temp_criteria = temp_criteria;
@@ -21,7 +21,7 @@ public class Hospital {
         else status = false;
     }
 
-    float get_oxygen_criteria() {
+    int get_oxygen_criteria() {
         return this.oxygen_criteria;
     }
 

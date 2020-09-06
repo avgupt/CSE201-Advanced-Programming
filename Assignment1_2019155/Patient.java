@@ -2,13 +2,13 @@
 public class Patient {
 
     String name;
-    private final int age, id;
-    private final float oxygen_level, body_temp;
+    private final int age, id, oxygen_level;
+    private final float body_temp;
     boolean is_admitted; // admitted or not
     private Hospital hospital; // hospital in which patient is admitted
     int recovery_days;
 
-    Patient(String name, int age, float oxygen_level, float body_temp, int id) {
+    Patient(String name, int age, int oxygen_level, float body_temp, int id) {
         
         this.name = name;
         this.age = age;
@@ -45,7 +45,7 @@ public class Patient {
         return age;
     }
 
-    float get_oxygen_level() {
+    int get_oxygen_level() {
         return oxygen_level;
     }
 

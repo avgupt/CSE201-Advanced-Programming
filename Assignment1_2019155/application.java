@@ -12,7 +12,7 @@ public class application {
         float temp = in.nextFloat();
 
         System.out.println("Oxygen Levels -");
-        float oxygen = in.nextFloat();
+        int oxygen = in.nextInt();
 
         System.out.println("Number of Available beds - ");
         int available_beds = in.nextInt();
@@ -104,7 +104,7 @@ public class application {
         for (int i = 0; i < patient_num; i++) {
             String name = in.next(); // assuming that name is of one word
             float temp = in.nextFloat();
-            float oxygen = in.nextFloat(); // convert to int!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            int oxygen = in.nextInt(); 
             int age = in.nextInt();
             Patient p = new Patient(name, age, oxygen, temp, c.get_patient_id());
             c.add_patient(p);
