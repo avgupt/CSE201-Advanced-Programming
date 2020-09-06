@@ -28,7 +28,7 @@ public class application {
     }
 
     static void query_2(Camp c) {
-        Collection<Patient> patients = c.remove_admitted_patients();
+        List<Patient> patients = c.remove_admitted_patients();
         System.out.println("Account ID removed of admitted patients");
         for (Patient p : patients) {
             System.out.println(p.get_id());

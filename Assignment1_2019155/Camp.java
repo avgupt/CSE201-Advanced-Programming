@@ -49,8 +49,9 @@ public class Camp {
         }
     }
 
-    Collection<Patient> remove_admitted_patients() {
-        Collection<Patient> output = admitted_patients.values();
+    List<Patient> remove_admitted_patients() {
+        List<Patient> output = new ArrayList<Patient>();
+        for (Patient p : admitted_patients.values()) output.add(p);
         admitted_patients.clear();  // remove accounts of admitted patients from Camp database
         return output;
     }
